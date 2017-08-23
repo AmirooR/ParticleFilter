@@ -576,7 +576,7 @@ class ParticleFilter : public DifferentialWheels
 		return exp(-0.5*(x-mean)*(x-mean)/(sigma*sigma));//(sigma*SQRT2PI);
 	}
 
-	double liklihoodFiled(vector<double> z,State state)
+	double liklihoodField(vector<double> z,State state)
 	{
 		double q = 1.0;
 		if (map->isOccupied(state))
@@ -684,7 +684,7 @@ class ParticleFilter : public DifferentialWheels
 			//	  cout<<"Before Odometry "<<m<<endl;
 			State nX = sampleMotionOdometryMap(prevU,nU,(*particles)[m]);
 			//State nX = sampleMotionOdometryMap(dtran, drot,(*particles)[m]);
-			double wm = liklihoodFiled(z,nX);
+			double wm = liklihoodField(z,nX);
 			//cerr<<"wm "<<wm<<endl;
 			Particle bP(nX,wm);
 			barParticles->push_back(bP);
@@ -784,7 +784,7 @@ class ParticleFilter : public DifferentialWheels
 		//    double x=0, y=0, theta=0;
 
 		int free, seeWall, loopCounter = 0;
-		int amin = 0;
+		int led_case = 0;
     int wait = WAIT;
     
 		// Main n		cout<<"Run Controller..."<<endl;
@@ -798,15 +798,15 @@ class ParticleFilter : public DifferentialWheels
 			// Process sensor data here
 
 			// Enter here functions to send actuator commands, like:
-			if(amin == 0)
+			if(led_case == 0)
 			{
 				led[5]->set(1);
-				amin = 1;
+				led_case = 1;
 			}
 			else
 			{
 				led[5]->set(0);
-				amin = 0;
+				led_case = 0;
 			}
 
 			pl = l;
